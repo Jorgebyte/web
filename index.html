@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I love karo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      background: #dfc6c6;
+      font-family: 'Playfair Display', serif;
+    }
+    #animation-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #dfc6c6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #heart {
+      width: 50vw;
+      height: auto;
+      animation: shrinkHeart 3.5s forwards;
+    }
+    @keyframes shrinkHeart {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0.3); opacity: 0; }
+    }
+    #main-content {
+      display: none;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      overflow: auto;
+    }
+    #image-container {
+      margin-bottom: 20px;
+    }
+    #image-container img {
+      width: 80%;
+      max-width: 400px;
+      border: 5px solid #e25555;
+      border-radius: 10px;
+    }
+    #message {
+      font-size: 2em;
+      color: #6e6666;
+      margin-top: 50px;
+      min-height: 150px;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      background-color: #6e6666;
+      margin-left: 2px;
+      animation: blink 0.7s steps(1) infinite;
+      vertical-align: bottom;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    #button-container {
+      margin-top: 30px;
+      opacity: 0;
+      transform: scale(0);
+    }
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pop {
+      animation: pop 0.6s forwards;
+    }
+    #heart-button {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      width: 80px;
+      height: 80px;
+      border: 3px solid #e25555;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      color: #e25555;
+      font-size: 1em;
+      font-weight: bold;
+    }
+    #heart-button:hover { transform: scale(1.1); }
+    #heart-button svg {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="animation-container">
+    <svg id="heart" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#e25555" d="M23.6,0c-3.4,0-6.4,2.4-7.6,5.7C14.8,2.4,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4
+      c0,4.5,3.2,8.2,8.1,12.1C13.5,24,16,25.7,16,25.7s2.5-1.7,7.9-5.2C28.8,16.6,32,12.9,32,8.4C32,3.8,28.2,0,23.6,0z"/>
+    </svg>
+  </div>
+  <div id="main-content">
+    <div id="image-container">
+      <img src="images/image-1.jpg" alt="Imagen1">
+    </div>
+    <div id="message">
+      <span id="text"></span><span class="cursor"></span>
+    </div>
+    <div id="button-container">
+      <a href="page2.html" id="heart-button" title="Sigue leyendo...">
+        <svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#e25555" d="M23.6,0c-3.4,0-6.4,2.4-7.6,5.7C14.8,2.4,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4
+          c0,4.5,3.2,8.2,8.1,12.1C13.5,24,16,25.7,16,25.7s2.5-1.7,7.9-5.2C28.8,16.6,32,12.9,32,8.4C32,3.8,28.2,0,23.6,0z"/>
+        </svg>
+        <span>CLICK</span>
+      </a>
+    </div>
+  </div>
+  <script>
+    const fullText = "cada vez que pienso en ti karo siento que el universo conspiro para que nos encontraramos, eres mi amorcito mi niña preciosa hermosa, te amo y esta sera mi forma de decirte lo que musho que te amo mi amorcito, y eres el algoritmo perfecto que hace que todo tenga sentido, mi amor por ti es el framework sobre el que construyo cada día";
+    let index = 0;
+    const pausePoints = [Math.floor(fullText.length/4), Math.floor(fullText.length/2), Math.floor(fullText.length*3/4)];
+    function typeWriter() {
+      if (index <= fullText.length) {
+        document.getElementById("text").textContent = fullText.substring(0, index);
+        let delay = 50;
+        if (pausePoints.includes(index)) delay = 1050;
+        index++;
+        setTimeout(typeWriter, delay);
+      } else {
+        document.querySelector(".cursor").style.display = "none";
+        const btnContainer = document.getElementById("button-container");
+        btnContainer.classList.add("pop");
+      }
+    }
+    const heart = document.getElementById('heart');
+    heart.addEventListener('animationend', () => {
+      document.getElementById('animation-container').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      document.body.style.overflow = 'auto';
+      typeWriter();
+    });
+  </script>
+</body>
+</html>

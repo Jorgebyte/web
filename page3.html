@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I love karo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      background: #e49999;
+      font-family: 'Playfair Display', serif;
+    }
+    #animation-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #e49999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #heart {
+      width: 50vw;
+      height: auto;
+      animation: growHeart 3s forwards;
+    }
+    @keyframes growHeart {
+      0% { transform: scale(0.3); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    #main-content {
+      display: none;
+      padding: 20px;
+      box-sizing: border-box;
+      text-align: center;
+      overflow: auto;
+      min-height: 100vh;
+    }
+    #image-container {
+      margin-bottom: 20px;
+    }
+    #image-container img {
+      width: 80%;
+      max-width: 400px;
+      border: 5px solid #d6c8c8;
+      border-radius: 10px;
+    }
+    #message {
+      font-size: 2em;
+      color: #333131;
+      margin-top: 50px;
+      min-height: 150px;
+    }
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      background-color: #6e6666;
+      margin-left: 2px;
+      animation: blink 0.7s steps(1) infinite;
+      vertical-align: bottom;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    #button-container {
+      margin-top: 30px;
+      opacity: 0;
+      transform: scale(0);
+    }
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pop {
+      animation: pop 0.6s forwards;
+    }
+    #heart-button {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      border: none;
+      background: transparent;
+      padding: 0;
+      cursor: pointer;
+    }
+    .heart-svg {
+      width: 100%;
+      height: 100%;
+      fill: #FF0044;
+      transition: transform 0.3s;
+    }
+    #heart-button:hover .heart-svg {
+      transform: scale(1.1);
+    }
+    .heart-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1em;
+      font-weight: bold;
+      text-align: center;
+      pointer-events: none;
+    }
+    #extra-text {
+      margin-top: 10px;
+      font-size: 1em;
+      color: #333131;
+    }
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    #final-message {
+      display: none;
+      font-size: 2em;
+      color: #7a7777;
+      text-align: center;
+      padding: 20px;
+      animation: fadeIn 1s forwards;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #e25555;
+      animation: fall 3s linear infinite;
+      z-index: 2;
+    }
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+        transform: rotate(0deg);
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+        transform: rotate(360deg);
+      }
+    }
+    #flower-container {
+      margin-top: 20px;
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #flower-svg {
+      width: 100%;
+      height: auto;
+    }
+    #stem {
+      stroke-dasharray: 80;
+      stroke-dashoffset: 80;
+      animation: drawStem 5s forwards;
+    }
+    @keyframes drawStem {
+      to { stroke-dashoffset: 0; }
+    }
+    #petals {
+      stroke-dasharray: 125.6;
+      stroke-dashoffset: 125.6;
+      animation: drawPetals 5s forwards;
+      animation-delay: 5s;
+    }
+    @keyframes drawPetals {
+      to { stroke-dashoffset: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div id="animation-container">
+    <svg id="heart" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#e25555" d="M23.6,0c-3.4,0-6.4,2.4-7.6,5.7C14.8,2.4,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4
+      c0,4.5,3.2,8.2,8.1,12.1C13.5,24,16,25.7,16,25.7s2.5-1.7,7.9-5.2C28.8,16.6,32,12.9,32,8.4C32,3.8,28.2,0,23.6,0z"/>
+    </svg>
+  </div>
+  <div id="main-content">
+    <div id="image-container">
+      <img src="images/image-3.jpg" alt="Imagen de Karo">
+    </div>
+    <div id="message">
+      <span id="text"></span><span class="cursor"></span>
+    </div>
+    <div id="button-container">
+      <button id="heart-button" title="Sigue leyendo...">
+        <svg class="heart-svg" viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.6,0c-3.4,0-6.4,2.4-7.6,5.7C14.8,2.4,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4
+            c0,4.5,3.2,8.2,8.1,12.1C13.5,24,16,25.7,16,25.7s2.5-1.7,7.9-5.2C28.8,16.6,32,12.9,32,8.4C32,3.8,28.2,0,23.6,0z"/>
+        </svg>
+        <span class="heart-text">OBVIO ACEPTO PORQUE NO?</span>
+      </button>
+      <div id="extra-text">OBVIO ACEPTRAS PORQUE ABRIA UN BOTÓN DE NO ACEPTAR AJDSAJD</div>
+    </div>
+  </div>
+  <div id="final-message"></div>
+  <script>
+    const fullText = "BUENO ENTONCES EMPIEZO, desde que te conocí supe que tú eras para mí, aunque te hacías la difícil al principio, tú también sabías que yo era para ti :) tú eres el motivo por el cual sonrío, desde que te conocí mi corazón solo late por ti y siempre anhelo soñarte, porque cuando estás en mis sueños, siento que mi corazón y mi mente finalmente descansan, y sobre todo no hay nada más lindo que tus hermosos ojitos de princesita. Mi amorcito, te amo y no quiero perder la luna por ver las estrellas, así que ¿me permites ser el dueño de tu corazón y tú quieres ser la dueña de mi corazón, la princesa de mis más anhelados sueños?";
+    let index = 0;
+    const pausePoints = [Math.floor(fullText.length/4), Math.floor(fullText.length/2), Math.floor(fullText.length*3/4)];
+    
+    function typeWriter() {
+      if (index <= fullText.length) {
+        document.getElementById("text").textContent = fullText.substring(0, index);
+        let delay = 50;
+        if (pausePoints.includes(index)) delay = 1050;
+        index++;
+        setTimeout(typeWriter, delay);
+      } else {
+        document.querySelector(".cursor").style.display = "none";
+        const btnContainer = document.getElementById("button-container");
+        btnContainer.classList.add("pop");
+      }
+    }
+
+    const heart = document.getElementById('heart');
+    heart.addEventListener('animationend', () => {
+      document.getElementById('animation-container').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+      document.body.style.overflow = 'auto';
+      typeWriter();
+    });
+    document.getElementById('heart-button').addEventListener('click', () => {
+      function createConfetti() {
+        const confettiCount = 30;
+        for(let i = 0; i < confettiCount; i++){
+          let confetto = document.createElement('div');
+          confetto.classList.add('confetti');
+          confetto.style.left = Math.random() * 100 + '%';
+          confetto.style.background = '#' + Math.floor(Math.random()*16777215).toString(16);
+          confetto.style.animationDelay = Math.random() * 3 + 's';
+          document.body.appendChild(confetto);
+          setTimeout(() => {
+            confetto.remove();
+          }, 3000);
+        }
+      }
+      createConfetti();
+      const mainContent = document.getElementById('main-content');
+      mainContent.style.animation = 'fadeOut 1s forwards';
+      setTimeout(() => {
+        mainContent.style.display = 'none';
+        const finalMessage = document.getElementById('final-message');
+        finalMessage.innerHTML = "<div id='final-text'>JSJDJJSAJ SABIA QUE ACEPTARIAS AHORA QUE LLEGASTES AQUI TOMALES CAPTURA Y ENVIALA AL WUASAP MI AMORCITO, TE AMOO!</div>" +
+          "<div id='flower-container'><svg id='flower-svg' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'>" +
+          "<path id='stem' d='M100,180 L100,100' stroke='green' stroke-width='4' fill='none'/>" +
+          "<circle id='petals' cx='100' cy='80' r='20' fill='none' stroke='red' stroke-width='4'/>" +
+          "</svg></div>";
+        finalMessage.style.display = 'block';
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
